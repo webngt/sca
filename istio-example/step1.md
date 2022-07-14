@@ -1,61 +1,238 @@
-Теперь создадим объекты istio  и проверим доступ к сервису
+## Сертификаты и ключи для клиента и внешнего сервиса
 
-Введите строки ниже в файл istio-gateway.yaml. Вы можете сделать это вручную или нажав кнопку "Copy to Editor".
-
-<pre class="file" data-filename="istio-gateway.yaml" data-target="replace">
-apiVersion: networking.istio.io/v1alpha3
-kind: Gateway
-metadata:
-  name: istio-gateway
-spec:
-  selector:
-    istio: ingressgateway
-  servers:
-  - port:
-      number: 80
-      name: http
-      protocol: HTTP
-    hosts:
-    - "*"
-</pre>
-
-Создадим объкт в kubernetes командой
+1. Создать корневой сертификат и приватный ключ
 
 ```
-kubectl apply -f istio-gateway.yaml
+openssl req -x509 -sha256 -nodes -days 365 -newkey rsa:2048 -subj '/O=example Inc./CN=example.com' -keyout example.com.key -out example.com.crt
+
 ```{{execute}}
 
-Далее сгенерируем описание объекта istio типа [virtualservice](https://istio.io/latest/docs/reference/config/networking/virtual-service/) для доступа к сервису
+2. Создать сертификат для внешнего сервиса
 
 ```
-cat <<EOF >vs.yaml
----
-apiVersion: networking.istio.io/v1alpha3
-kind: VirtualService
-metadata:
-  name: prometheus
-spec:
-  hosts:
-  - "*"
-  gateways:
-  - istio-gateway
-  http:
-  - match:
-    - uri:
-        prefix: /$(cat /usr/local/etc/sbercode-prefix)-80
-    route:
-    - destination:
-        host: prometheus.default.svc.cluster.local
-        port:
-          number: 80
+openssl req -out my-nginx.mesh-external.svc.cluster.local.csr -newkey rsa:2048 -nodes -keyout my-nginx.mesh-external.svc.cluster.local.key -subj "/CN=my-nginx.mesh-external.svc.cluster.local/O=some organization"
+openssl x509 -req -sha256 -days 365 -CA example.com.crt -CAkey example.com.key -set_serial 0 -in my-nginx.mesh-external.svc.cluster.local.csr -out my-nginx.mesh-external.svc.cluster.local.crt
+```{{execute}}
+
+3. Создать сертификат для клиента
+
+```
+openssl req -out client.example.com.csr -newkey rsa:2048 -nodes -keyout client.example.com.key -subj "/CN=client.example.com/O=client organization"
+openssl x509 -req -sha256 -days 365 -CA example.com.crt -CAkey example.com.key -set_serial 1 -in client.example.com.csr -out client.example.com.crt
+```{{execute}}
+
+## Kонфигурация внешнего сервиса
+
+1. coздать namespace для размещения внешнего сервиса
+
+```
+kubectl create namespace mesh-external
+```{{execute}}
+
+2. создать секреты для хранения сертификатов сервиса, которые мы создали ранее и CA
+
+```
+kubectl create -n mesh-external secret tls nginx-server-certs --key my-nginx.mesh-external.svc.cluster.local.key --cert my-nginx.mesh-external.svc.cluster.local.crt
+kubectl create -n mesh-external secret generic nginx-ca-certs --from-file=example.com.crt
+
+```{{execute}}
+
+3. создать config файл для NGINX сервера
+
+```
+cat <<\EOF > ./nginx.conf
+events {
+}
+
+http {
+  log_format main '$remote_addr - $remote_user [$time_local]  $status '
+  '"$request" $body_bytes_sent "$http_referer" '
+  '"$http_user_agent" "$http_x_forwarded_for"';
+  access_log /var/log/nginx/access.log main;
+  error_log  /var/log/nginx/error.log;
+
+  server {
+    listen 443 ssl;
+
+    root /usr/share/nginx/html;
+    index index.html;
+
+    server_name my-nginx.mesh-external.svc.cluster.local;
+    ssl_certificate /etc/nginx-server-certs/tls.crt;
+    ssl_certificate_key /etc/nginx-server-certs/tls.key;
+    ssl_client_certificate /etc/nginx-ca-certs/example.com.crt;
+    ssl_verify_client on;
+  }
+}
 EOF
 ```{{execute}}
 
-и применим его в кластер
+4. создать Kubernetes ConfigMap из конфиг файла предыдущего шага
 
 ```
-kubectl apply -f vs.yaml
+kubectl create configmap nginx-configmap -n mesh-external --from-file=nginx.conf=./nginx.conf
 ```{{execute}}
 
-Проверить доступ можно по ссылке на дашборд. Дашборд Prometheus доступен [здесь](https://[[HOST_SUBDOMAIN]]-80-[[KATACODA_HOST]].environments.katacoda.com/)
+5. применить Deployment для запуска сервера
 
+```
+kubectl apply -f - <<EOF
+apiVersion: v1
+kind: Service
+metadata:
+  name: my-nginx
+  namespace: mesh-external
+  labels:
+    run: my-nginx
+spec:
+  ports:
+  - port: 443
+    protocol: TCP
+  selector:
+    run: my-nginx
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: my-nginx
+  namespace: mesh-external
+spec:
+  selector:
+    matchLabels:
+      run: my-nginx
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        run: my-nginx
+    spec:
+      containers:
+      - name: my-nginx
+        image: nginx
+        ports:
+        - containerPort: 443
+        volumeMounts:
+        - name: nginx-config
+          mountPath: /etc/nginx
+          readOnly: true
+        - name: nginx-server-certs
+          mountPath: /etc/nginx-server-certs
+          readOnly: true
+        - name: nginx-ca-certs
+          mountPath: /etc/nginx-ca-certs
+          readOnly: true
+      volumes:
+      - name: nginx-config
+        configMap:
+          name: nginx-configmap
+      - name: nginx-server-certs
+        secret:
+          secretName: nginx-server-certs
+      - name: nginx-ca-certs
+        secret:
+          secretName: nginx-ca-certs
+EOF
+```{{execute}}
+
+## Конфигурация клиента
+
+1. Создать секреты для клиента используя сертификаты и ключи, которые были созданы ранее
+
+```
+kubectl create secret generic client-credential --from-file=tls.key=client.example.com.key \
+  --from-file=tls.crt=client.example.com.crt --from-file=ca.crt=example.com.crt
+```{{execute}}
+
+2. Sleep Service
+
+```
+kubectl apply -f - <<EOF
+apiVersion: v1
+kind: ServiceAccount
+metadata:
+  name: sleep
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: sleep
+  labels:
+    app: sleep
+    service: sleep
+spec:
+  ports:
+  - port: 80
+    name: http
+  selector:
+    app: sleep
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: sleep
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: sleep
+  template:
+    metadata:
+      labels:
+        app: sleep
+    spec:
+      terminationGracePeriodSeconds: 0
+      serviceAccountName: sleep
+      containers:
+      - name: sleep
+        image: curlimages/curl
+        command: ["/bin/sleep", "3650d"]
+        imagePullPolicy: IfNotPresent
+        volumeMounts:
+        - mountPath: /etc/sleep/tls
+          name: secret-volume
+      volumes:
+      - name: secret-volume
+        secret:
+          secretName: sleep-secret
+          optional: true
+EOF
+```{{execute}}
+
+2. Создать RBAC для секрета
+
+```
+kubectl create role client-credential-role --resource=secret --verb=get,list,watch
+kubectl create rolebinding client-credential-role-binding --role=client-credential-role --serviceaccount=default:sleep
+```{{execute}}
+
+3. DestinationRule
+
+```
+kubectl apply -f - <<EOF
+apiVersion: networking.istio.io/v1alpha3
+kind: DestinationRule
+metadata:
+  name: originate-mtls-for-nginx
+spec:
+  workloadSelector:
+    matchLabels:
+      app: sleep
+  host: my-nginx.mesh-external.svc.cluster.local
+  trafficPolicy:
+    loadBalancer:
+      simple: ROUND_ROBIN
+    portLevelSettings:
+    - port:
+        number: 443
+      tls:
+        mode: MUTUAL
+        credentialName: client-credential # this must match the secret created earlier to hold client certs, and works only when DR has a workloadSelector
+        sni: my-nginx.mesh-external.svc.cluster.local # this is optional
+EOF
+```{{execute}}
+
+4. Проверка - отправить запрос в http://my-nginx.mesh-external.svc.cluster.local
+
+```
+kubectl exec "$(kubectl get pod -l app=sleep -o jsonpath={.items..metadata.name})" -c sleep -- curl -sS http://my-nginx.mesh-external.svc.cluster.local:443
+```{{execute}}
