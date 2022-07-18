@@ -7,12 +7,16 @@
     "details": {
         "steps": [
             {
-                "title": "Cоздаем объекты кубернетис и запускаем prometheus",
+                "title": "Some theory",
                 "text": "step0.md"
             },
             {
-                "title": "Создаем объекты istio и получаем доступ к интерфейсу",
+                "title": "Sidecar MTLS",
                 "text": "step1.md"
+            },
+            {
+                "title": "Gateway MTLS",
+                "text": "step2.md"
             }
         ],
         "intro": {
