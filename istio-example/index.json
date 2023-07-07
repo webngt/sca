@@ -11,6 +11,10 @@
                 "text": "step-about.md"
             },
             {
+                "title": "Порядок решения",
+                "text": "step-design.md"
+            },
+            {
                 "title": "Запуск кластера",
                 "text": "step-setup.md"
             },
