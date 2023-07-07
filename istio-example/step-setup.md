@@ -13,4 +13,10 @@ kubectl label namespace default istio-injection=enabled
 Таким образом мы обозначили, что Namespace default находится под управлением Istio Service Mesh и готов к развертыванию прикладного сервиса
 
 
+Также coздайте namespace для размещения внешнего сервиса**
+
+```
+kubectl create namespace mesh-external
+```{{execute}}
+
 
