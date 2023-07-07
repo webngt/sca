@@ -9,11 +9,6 @@ openssl req -x509 -sha256 -nodes -days 365 -newkey rsa:2048 -subj '/O=example In
 
 ```{{execute}}
 
-Убедитесь, что в списке файлов появились такие файлы
-
-* example.com.crt
-* example.com.key
-
 2. Создать сертификат для внешнего сервиса
 
 ```
@@ -28,3 +23,18 @@ openssl req -out client.example.com.csr -newkey rsa:2048 -nodes -keyout client.e
 openssl x509 -req -sha256 -days 365 -CA example.com.crt -CAkey example.com.key -set_serial 1 -in client.example.com.csr -out client.example.com.crt
 ```{{execute}}
 
+## Важно
+
+Убедитесь, что в списке файлов появились такие файлы
+
+* Ключ и сертификат удостоверяющего центра
+  * example.com.key - ключ
+  * example.com.crt - сертификат
+* Ключ, запрос для подписи сертификата, сертификат для внешнего сервиса   
+  * my-nginx.mesh-external.svc.cluster.local.key
+  * my-nginx.mesh-external.svc.cluster.local.csr
+  * my-nginx.mesh-external.svc.cluster.local.crt
+* Ключ, запрос для подписи сертификата, сертификат для прикладного сервиса
+  * client.example.com.key
+  * client.example.com.csr
+  * client.example.com.crt
