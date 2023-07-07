@@ -17,7 +17,7 @@ kubectl create -n mesh-external \
 
 ```{{execute}}
 
-*Команда создает generic secret в неймспейсе `mesh-external` (опция `-n mesh-external) из файла `example.com.crt` (опция `--from-file=example.com.crt`)* 
+Команда создает generic secret в неймспейсе `mesh-external` (опция `-n mesh-external) из файла `example.com.crt` (опция `--from-file=example.com.crt`)
 
 
 ## Секрет ключа и сертификата сервиса
@@ -29,9 +29,9 @@ kubectl create -n mesh-external \
   secret tls nginx-server-certs \
     --key my-nginx.mesh-external.svc.cluster.local.key \
     --cert my-nginx.mesh-external.svc.cluster.local.crt
+
 ```{{execute}}
 
+Команда создает tls secret в неймспейсе `mesh-external` (опция `-n mesh-external`)
 
-*Команда создает tls secret в неймспейсе `mesh-external` (опция `-n mesh-external`)
-
-Kлюч берется из файла `my-nginx.mesh-external.svc.cluster.local.key` (опция --key), сертификат из файла `my-nginx.mesh-external.svc.cluster.local.crt` (опция --cert)*
+Kлюч берется из файла `my-nginx.mesh-external.svc.cluster.local.key` (опция --key), сертификат из файла `my-nginx.mesh-external.svc.cluster.local.crt` (опция --cert)
