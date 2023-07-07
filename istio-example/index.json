@@ -7,16 +7,20 @@
     "details": {
         "steps": [
             {
-                "title": "Some theory",
-                "text": "step0.md"
+                "title": "Описание упражнения",
+                "text": "step-about.md"
+            },
+            {
+                "title": "Запуск кластера",
+                "text": "step-setup.md"
             },
             {
                 "title": "Sidecar MTLS",
-                "text": "step1.md"
+                "text": "step-sidecar.md"
             },
             {
                 "title": "Gateway MTLS",
-                "text": "step2.md"
+                "text": "step-gateway.md"
             }
         ],
         "intro": {
