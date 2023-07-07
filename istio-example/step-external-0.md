@@ -1,10 +1,12 @@
-1. coздать namespace для размещения внешнего сервиса
+Для конфигурации внешнего сервиса выполните пункты, указанные ниже
+
+## 1. coздать namespace для размещения внешнего сервиса
 
 ```
 kubectl create namespace mesh-external
 ```{{execute}}
 
-1. создать секрет для хранения сертификата удостоверяющего центра
+## 2. создать секрет для хранения сертификата удостоверяющего центра
 
 ```
 kubectl create -n mesh-external secret generic nginx-ca-certs --from-file=example.com.crt
@@ -12,24 +14,24 @@ kubectl create -n mesh-external secret generic nginx-ca-certs --from-file=exampl
 ```{{execute}}
 
 
-1. создать секрет для хранения ключа и сертификата сервиса
+## 3. создать секрет для хранения ключа и сертификата сервиса
 
 ```
 kubectl create -n mesh-external secret tls nginx-server-certs --key my-nginx.mesh-external.svc.cluster.local.key --cert my-nginx.mesh-external.svc.cluster.local.crt
 
 ```{{execute}}
 
-1. ознакомьтесь с конфигурацией внешнего сервиса
+## 4. ознакомьтесь с конфигурацией внешнего сервиса
 
 `external/nginx.conf`{{open}}
 
-4. создать Kubernetes ConfigMap из конфиг файла предыдущего шага
+5. создать Kubernetes ConfigMap из конфиг файла предыдущего шага
 
 ```
 kubectl create configmap nginx-configmap -n mesh-external --from-file=nginx.conf=./nginx.conf
 ```{{execute}}
 
-5. применить Deployment для запуска сервера
+6. применить Deployment для запуска сервера
 
 ```
 kubectl apply -f - <<EOF
