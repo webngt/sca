@@ -1,6 +1,10 @@
-Для конфигурации секретов внешнего сервиса необходимо выполнить команды указанные ниже. 
+Для начала конфигурации внешнего сервиса необходимо создать секреты для хранения ключей и сертификатов внешнего сервиса в кластере Kubernetes. 
 
-В секретах будут храниться соотвествующие ключи и сертификаты внешнего сервиса, которые вы создали ранее
+Вам понадобятся файлы которые были созданы ранее:
+
+* example.com.crt
+* my-nginx.mesh-external.svc.cluster.local.key
+* my-nginx.mesh-external.svc.cluster.local.crt
 
 ## Cекрет сертификата удостоверяющего центра
 
@@ -13,7 +17,7 @@ kubectl create -n mesh-external \
 
 ```{{execute}}
 
-Команда создает generic secret в неймспейсе mesh-external (опция -n mesh-external) из файла example.com.crt (опция --from-file=example.com.crt) 
+*Команда создает generic secret в неймспейсе `mesh-external` (опция `-n mesh-external) из файла `example.com.crt` (опция `--from-file=example.com.crt`)* 
 
 
 ## Секрет ключа и сертификата сервиса
@@ -28,4 +32,6 @@ kubectl create -n mesh-external \
 
 ```{{execute}}
 
-Команда создает tls secret в неймспейсе mesh-external (опция -n mesh-external), ключ берется из файла my-nginx.mesh-external.svc.cluster.local.key (опция --key), сертификат из файла my-nginx.mesh-external.svc.cluster.local.crt (опция --cert)
+*Команда создает tls secret в неймспейсе `mesh-external` (опция `-n mesh-external`)*
+
+*Kлюч берется из файла `my-nginx.mesh-external.svc.cluster.local.key` (опция --key), сертификат из файла `my-nginx.mesh-external.svc.cluster.local.crt` (опция --cert)*
