@@ -23,6 +23,10 @@
                 "text": "step-keys.md"
             },
             {
+                "title": "Конфигурация внешнего сервиса",
+                "text": "step-external.md"
+            },
+            {
                 "title": "Sidecar MTLS",
                 "text": "step-sidecar.md"
             },
@@ -35,7 +39,11 @@
             "text": "intro.md",
             "credits": ""
         },
-        "assets": { },
+        "assets": { 
+            "host01": [
+                {"file": "nginx.conf", "target": "/root/external"}
+            ]
+        },
         "finish": {
             "text": "finish.md"
         }
