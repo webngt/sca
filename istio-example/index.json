@@ -19,6 +19,10 @@
                 "text": "step-setup.md"
             },
             {
+                "title": "Выпуск ключей и сертификатов",
+                "text": "step-keys.md"
+            },
+            {
                 "title": "Sidecar MTLS",
                 "text": "step-sidecar.md"
             },
