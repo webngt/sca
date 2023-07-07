@@ -27,8 +27,8 @@ kubectl create -n mesh-external \
 ```
 kubectl create -n mesh-external \
   secret tls nginx-server-certs \
-    --key my-nginx.mesh-external.svc.cluster.local.key \
-    --cert my-nginx.mesh-external.svc.cluster.local.crt
+  --key my-nginx.mesh-external.svc.cluster.local.key \
+  --cert my-nginx.mesh-external.svc.cluster.local.crt
 
 ```{{execute}}
 
