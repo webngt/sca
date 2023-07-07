@@ -16,7 +16,9 @@ kubectl create -n mesh-external \
 Команда создает generic secret в неймспейсе mesh-external (опция -n mesh-external) из файла example.com.crt (опция --from-file=example.com.crt) 
 
 
-Создать секрет для хранения ключа и сертификата сервиса
+## Секрет ключа и сертификата сервиса
+
+Выполните следующую команду
 
 ```
 kubectl create -n mesh-external \
