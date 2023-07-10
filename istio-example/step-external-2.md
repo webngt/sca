@@ -1,6 +1,19 @@
 Для запуска внешнего сервиса необходимо применить в кластере объекты Service и Deployment, которые будут опредлять параметры сетевой доступности внешнего сервера и его рабочего состояния. 
 
+## Примените объекты Service и Deployment
+
+Для этого выполните команду
+
+```
+kubectl apply -f ./external/svc-deploy-ext.yaml && \
+&& kubectl -n mesh-exaternal wait --for=condition=Ready \
+  deployment/my-nginx --timeout=-1
+```{{execute}}
+
+
 ## Ознакомьтесь объектами Service и Deployment
+
+Если вы хотите подробнее ознакомиться с объектами Service и Deployment, которые используются для запуска внешнего сервиса, прочитайте информацию ниже.
 
 `external/svc-deploy-ext.yaml`{{open}}
 
@@ -14,9 +27,5 @@
   * volumes определяет имена в соответствии с которыми будут монтироваться объекты Secrect и ConfigMap в файловую систему контейнера
   * volumeMounts определяет имена каталогов контейнера, в которые будут монтироваться файлы конфигурации и секреты, необходимые для работы сервера
 
-## Примените объекты Service и Deployment
 
-```
-kubectl apply -f ./external/svc-deploy-ext.yaml
-```{{execute}}
 
