@@ -1,177 +1,22 @@
-Для конфигурации внешнего сервиса выполните пункты, указанные ниже
+Для запуска внешнего сервиса необходимо применить в кластере объекты Service и Deployment, которые будут опредлять параметры сетевой доступности внешнего сервера и его рабочего состояния. 
 
-## Ознакомьтесь с конфигурацией внешнего сервиса
+## Ознакомьтесь объектами Service и Deployment
 
-`external/nginx.conf`{{open}}
+`external/svc-deploy-ext.yaml`{{open}}
 
-## Cоздайте Kubernetes ConfigMap из конфиг файла предыдущего шага
+Важные атрибуты объекта Service
+* name и namespace - определяют сетевое имя нашего сервера. Совокупность значений этих двух параметров после применения объекта Service даст сетевое имя *my-nginx.mesh-external.svc.cluster.local* (суффикс .svc.cluster.local будет добавлен автомативески при применении объекта). Обратите внимание, что это имя совпадает со значением параметра *server_name* конфигурации сервера, которое мы видели на предыдущем шаге. 
+* port со значением 443 в разделе ports говорит о том, что данный сервис будет доступен по порту 443, тк другие параметры не заданы, ожидается, что server в контейнере также будет доступен по порту 443
 
-```
-kubectl create configmap \
-  nginx-configmap -n mesh-external \
-  --from-file=nginx.conf=./external/nginx.conf
-```{{execute}}
+Важные аттрибуты объекта Deployment
 
-6. применить Deployment для запуска сервера
+* Обратите внимание на разделы volumes и volumeMounts:
+  * volumes определяет имена в соответствии с которыми будут монтироваться объекты Secrect и ConfigMap в файловую систему контейнера
+  * volumeMounts определяет имена каталогов контейнера, в которые будут монтироваться файлы конфигурации и секреты, необходимые для работы сервера
 
-```
-kubectl apply -f - <<EOF
-apiVersion: v1
-kind: Service
-metadata:
-  name: my-nginx
-  namespace: mesh-external
-  labels:
-    run: my-nginx
-spec:
-  ports:
-  - port: 443
-    protocol: TCP
-  selector:
-    run: my-nginx
----
-apiVersion: apps/v1
-kind: Deployment
-metadata:
-  name: my-nginx
-  namespace: mesh-external
-spec:
-  selector:
-    matchLabels:
-      run: my-nginx
-  replicas: 1
-  template:
-    metadata:
-      labels:
-        run: my-nginx
-    spec:
-      containers:
-      - name: my-nginx
-        image: nginx
-        ports:
-        - containerPort: 443
-        volumeMounts:
-        - name: nginx-config
-          mountPath: /etc/nginx
-          readOnly: true
-        - name: nginx-server-certs
-          mountPath: /etc/nginx-server-certs
-          readOnly: true
-        - name: nginx-ca-certs
-          mountPath: /etc/nginx-ca-certs
-          readOnly: true
-      volumes:
-      - name: nginx-config
-        configMap:
-          name: nginx-configmap
-      - name: nginx-server-certs
-        secret:
-          secretName: nginx-server-certs
-      - name: nginx-ca-certs
-        secret:
-          secretName: nginx-ca-certs
-EOF
-```{{execute}}
-
-## Конфигурация клиента
-
-1. Создать секреты для клиента используя сертификаты и ключи, которые были созданы ранее
+## Примените объекты Service и Deployment
 
 ```
-kubectl create secret generic client-credential --from-file=tls.key=client.example.com.key \
-  --from-file=tls.crt=client.example.com.crt --from-file=ca.crt=example.com.crt
+kubectl apply -f ./external/svc-deploy-ext.yaml
 ```{{execute}}
 
-2. Sleep Service
-
-```
-kubectl apply -f - <<EOF
-apiVersion: v1
-kind: ServiceAccount
-metadata:
-  name: sleep
----
-apiVersion: v1
-kind: Service
-metadata:
-  name: sleep
-  labels:
-    app: sleep
-    service: sleep
-spec:
-  ports:
-  - port: 80
-    name: http
-  selector:
-    app: sleep
----
-apiVersion: apps/v1
-kind: Deployment
-metadata:
-  name: sleep
-spec:
-  replicas: 1
-  selector:
-    matchLabels:
-      app: sleep
-  template:
-    metadata:
-      labels:
-        app: sleep
-    spec:
-      terminationGracePeriodSeconds: 0
-      serviceAccountName: sleep
-      containers:
-      - name: sleep
-        image: curlimages/curl
-        command: ["/bin/sleep", "3650d"]
-        imagePullPolicy: IfNotPresent
-        volumeMounts:
-        - mountPath: /etc/sleep/tls
-          name: secret-volume
-      volumes:
-      - name: secret-volume
-        secret:
-          secretName: sleep-secret
-          optional: true
-EOF
-```{{execute}}
-
-2. Создать RBAC для секрета
-
-```
-kubectl create role client-credential-role --resource=secret --verb=get,list,watch
-kubectl create rolebinding client-credential-role-binding --role=client-credential-role --serviceaccount=default:sleep
-```{{execute}}
-
-3. DestinationRule
-
-```
-kubectl apply -f - <<EOF
-apiVersion: networking.istio.io/v1alpha3
-kind: DestinationRule
-metadata:
-  name: originate-mtls-for-nginx
-spec:
-  workloadSelector:
-    matchLabels:
-      app: sleep
-  host: my-nginx.mesh-external.svc.cluster.local
-  trafficPolicy:
-    loadBalancer:
-      simple: ROUND_ROBIN
-    portLevelSettings:
-    - port:
-        number: 443
-      tls:
-        mode: MUTUAL
-        credentialName: client-credential # this must match the secret created earlier to hold client certs, and works only when DR has a workloadSelector
-        sni: my-nginx.mesh-external.svc.cluster.local # this is optional
-EOF
-```{{execute}}
-
-4. Проверка - отправить запрос в http://my-nginx.mesh-external.svc.cluster.local
-
-```
-kubectl exec "$(kubectl get pod -l app=sleep -o jsonpath={.items..metadata.name})" -c sleep -- curl -sS http://my-nginx.mesh-external.svc.cluster.local:443
-```{{execute}}
