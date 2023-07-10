@@ -2,15 +2,17 @@
 
 ## Примените объекты Service и Deployment
 
-Для этого выполните команду
+Для этого выполните команду и дождитесь ее завершения
 
 ```
 kubectl apply -f ./external/svc-deploy-ext.yaml && \
 kubectl -n mesh-external wait --for=condition=Ready pod -l run=my-nginx --timeout=-60s
 ```{{execute}}
 
+**Поздравляем, вы настроили внешний сервис!!!**
 
-## Ознакомьтесь объектами Service и Deployment
+
+## Детальное описание Service и Deployment
 
 Если вы хотите подробнее ознакомиться с объектами Service и Deployment, которые используются для запуска внешнего сервиса, прочитайте информацию ниже.
 
