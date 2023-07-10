@@ -6,8 +6,8 @@
 
 ```
 kubectl apply -f ./external/svc-deploy-ext.yaml && \
-&& kubectl -n mesh-exaternal wait --for=condition=Ready \
-  deployment/my-nginx --timeout=-1
+kubectl -n mesh-exaternal wait --for=condition=Ready \
+  deployment/my-nginx --timeout=-60s
 ```{{execute}}
 
 
