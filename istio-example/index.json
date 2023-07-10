@@ -27,8 +27,12 @@
                 "text": "step-external-0.md"
             },
             {
-                "title": "Конфигурация внешнего сервиса (2/2)",
+                "title": "Конфигурация внешнего сервиса (Configmap)",
                 "text": "step-external-1.md"
+            },
+            {
+                "title": "Конфигурация внешнего сервиса (Deployment)",
+                "text": "step-external-2.md"
             },
             {
                 "title": "Sidecar MTLS",
@@ -45,7 +49,8 @@
         },
         "assets": { 
             "host01": [
-                {"file": "nginx.conf", "target": "/root/external"}
+                {"file": "nginx.conf", "target": "/root/external"},
+                {"file": "svc-deploy-ext.yaml", "target": "/root/external/"}
             ]
         },
         "finish": {
