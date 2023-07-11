@@ -51,16 +51,20 @@
                 "text": "step-app-howto.md"
             },
             {
-                "title": "Доработка базовой конйигурации",
-                "text": "step-app-fix-deploy.md"
+                "title": "Доработка базовой конфигурации (Секреты)",
+                "text": "step-app-fix-secrets.md"
             },
             {
-                "title": "Sidecar MTLS",
-                "text": "step-sidecar.md"
+                "title": "Доработка базовой конфигурации (ServiceAccount)",
+                "text": "step-app-fix-sa.md"
             },
             {
-                "title": "Gateway MTLS",
-                "text": "step-gateway.md"
+                "title": "Создать объект Destination Rule",
+                "text": "step-app-dr.md"
+            },
+            {
+                "title": "Финальная проверка",
+                "text": "step-app-check.md"
             }
         ],
         "intro": {
