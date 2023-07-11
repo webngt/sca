@@ -10,7 +10,7 @@ kubectl create secret generic client-credential \
 
 Добавим ServiceAccount
 
-<pre class="file" data-filename="./internal/app-base" data-target="insert" data-marker="apiVersion: v1">
+<pre class="file" data-filename="./internal/app-base.yaml" data-target="insert" data-marker="apiVersion: v1">
 apiVersion: v1
 kind: ServiceAccount
 metadata:
