@@ -35,6 +35,14 @@
                 "text": "step-external-2.md"
             },
             {
+                "title": "Статус выполнения задания",
+                "text": "step-progress.md"
+            },
+            {
+                "title": "Конфигурация приложения",
+                "text": "step-app-config.md"
+            },
+            {
                 "title": "Sidecar MTLS",
                 "text": "step-sidecar.md"
             },
@@ -50,7 +58,8 @@
         "assets": { 
             "host01": [
                 {"file": "nginx.conf", "target": "/root/external"},
-                {"file": "svc-deploy-ext.yaml", "target": "/root/external/"}
+                {"file": "svc-deploy-ext.yaml", "target": "/root/external/"},
+                {"file": "app-base.yaml", "target": "/root/internal/"}
             ]
         },
         "finish": {
@@ -58,7 +67,6 @@
         }
     },
     "files": [
-        "istio-gateway.yaml"
     ],
     "environment": {
         "showdashboard": true,
