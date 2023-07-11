@@ -1,7 +1,7 @@
 {
-    "pathwayTitle": "Istio example",
-    "title": "Istio example",
-    "description": "Istio example",
+    "pathwayTitle": "TLS шифрование исходящего трафика из serviсe mesh",
+    "title": "TLS шифрование исходящего трафика из serviсe mesh",
+    "description": "TLS шифрование исходящего трафика из serviсe mesh",
     "difficulty": "beginner",
     "time": "30 minutes",
     "details": {
