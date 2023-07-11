@@ -8,4 +8,4 @@ kubectl exec \
 
 ## Что происходит?
 
-![App_](./assets/400.svg)
+![App_](./assets/400.png)
