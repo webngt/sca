@@ -1,3 +1,4 @@
+# Comment SA. Do not edit or remove this line!!!
 apiVersion: v1
 kind: Service
 metadata:
@@ -27,8 +28,10 @@ spec:
         app: sleep
     spec:
       terminationGracePeriodSeconds: 0
+# Comment SA deployemnt. Do not edit or remove this line!!!
       containers:
       - name: sleep
         image: curlimages/curl
         command: ["/bin/sleep", "3650d"]
         imagePullPolicy: IfNotPresent
+# Comment Secrets. Do not edit or remove this line!!!
