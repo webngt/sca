@@ -1,0 +1,28 @@
+apiVersion: networking.istio.io/v1alpha3
+kind: DestinationRule
+metadata:
+  name: originate-mtls-for-nginx
+spec:
+  workloadSelector:
+    matchLabels:
+      # условие что DestinationRule применяется к запросам из контейнеров,
+      # у которых утановлена метка (label) app в значение sleep.
+      # в нашей конфигурации такой меткой обладают контейнер, которые были 
+      # созданы при помоши объекта Deployment для прикладного сервиса, 
+      # см файл internal/app-base.yaml
+      app: sleep 
+  # поле host определяет условие применения DestinationRule для запросов 
+  # к сервису указанному в значении этого поля 
+  # в данном случае это наш внешний сервис my-nginx.mesh-external.svc.cluster.local
+  host: my-nginx.mesh-external.svc.cluster.local
+  # правила трансфорации запросов, если выполнены остальные условия
+  trafficPolicy:
+    loadBalancer:
+      simple: ROUND_ROBIN  
+    portLevelSettings:
+    - port:
+        number: 443 # применять правило при запросе на указанный порт
+      tls: # аттрибуты исходящего tls соединения
+        mode: MUTUAL # режим MUTUAL - взаимная проверка сертификатов клиента и сервера
+        credentialName: client-credential # секрет, где лежит клиентский сертификат
+        sni: my-nginx.mesh-external.svc.cluster.local # Server Name Indication - имя внешнего сервиса, с которым устанавливается исходящее соединения
