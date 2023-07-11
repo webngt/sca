@@ -75,7 +75,8 @@
             "host01": [
                 {"file": "nginx.conf", "target": "/root/external"},
                 {"file": "svc-deploy-ext.yaml", "target": "/root/external/"},
-                {"file": "app-base.yaml", "target": "/root/internal/"}
+                {"file": "app-base.yaml", "target": "/root/internal/"},
+                {"file": "app-dr.yaml", "target": "/root/internal/"}
             ]
         },
         "finish": {
