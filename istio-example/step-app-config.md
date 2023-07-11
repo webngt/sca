@@ -9,5 +9,5 @@ kubectl wait --for=condition=Ready pod -l app=sleep --timeout=-60s
 
 ## Объекты Service и Deployment
 
-`internal/svc-deploy-ext.yaml`{{open}}
+`internal/app-base.yaml`{{open}}
 
