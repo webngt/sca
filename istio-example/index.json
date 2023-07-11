@@ -43,6 +43,10 @@
                 "text": "step-app-config.md"
             },
             {
+                "title": "Проверка связи",
+                "text": "step-app-400.md"
+            },
+            {
                 "title": "Sidecar MTLS",
                 "text": "step-sidecar.md"
             },
