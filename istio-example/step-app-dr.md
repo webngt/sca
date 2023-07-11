@@ -34,7 +34,7 @@ EOF
 Проверим, как теперь
 
 ```
-kubectl exec "$(kubectl get pod -l app=sleep -o jsonpath={.items..metadata.name})" -c sleep -- curl -sS http://my-nginx.mesh-external.svc.cluster.local:443
+kubectl exec "$(kubectl get pod -l app=sleep -o jsonpath={.items..metadata.name})" -c sleep -- curl -svS http://my-nginx.mesh-external.svc.cluster.local:443
 ```{{execute}}
 
 
