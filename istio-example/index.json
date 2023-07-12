@@ -1,7 +1,7 @@
 {
-    "pathwayTitle": "TLS шифрование исходящего трафика из serviсe mesh",
-    "title": "TLS шифрование исходящего трафика из serviсe mesh",
-    "description": "TLS шифрование исходящего трафика из serviсe mesh",
+    "pathwayTitle": "Sidecar TLS шифрование исходящего трафика из serviсe mesh",
+    "title": "Sidecar TLS шифрование исходящего трафика из serviсe mesh",
+    "description": "Sidecar TLS шифрование исходящего трафика из serviсe mesh",
     "difficulty": "beginner",
     "time": "30 minutes",
     "details": {
