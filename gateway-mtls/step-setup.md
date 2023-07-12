@@ -19,4 +19,16 @@ kubectl label namespace default istio-injection=enabled
 kubectl create namespace mesh-external
 ```{{execute}}
 
+Кроме этого вам понадобится включить Egress Gateway, для этого выполните слудющую команду
+
+```
+export KUBECONFIG=/etc/rancher/k3s/k3s.yaml
+istioctl install \
+--set components.egressGateways[0].name=istio-egressgateway \
+--set components.egressGateways[0].enabled=true \
+--set values.pilot.resources.requests.memory=512Mi \
+--set values.pilot.resources.requests.cpu=50m \
+--set values.global.proxy.resources.requests.cpu=10m
+```{{execute}}
+
 
