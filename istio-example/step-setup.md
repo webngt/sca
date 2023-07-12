@@ -4,7 +4,7 @@
 launch.sh
 ```{{execute}}
 
-Включим [istio injection](https://istio.io/latest/docs/setup/additional-setup/sidecar-injection/) для Namespace default при помощи сделующей команды
+Включим <a href="https://istio.io/latest/docs/setup/additional-setup/sidecar-injection/" target="_blank">istio injection</a> для Namespace default при помощи сделующей команды
 
 ```
 kubectl label namespace default istio-injection=enabled
