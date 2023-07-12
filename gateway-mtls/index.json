@@ -23,24 +23,8 @@
                 "text": "step-keys.md"
             },
             {
-                "title": "Конфигурация внешнего сервиса (Секреты)",
-                "text": "step-external-0.md"
-            },
-            {
-                "title": "Конфигурация внешнего сервиса (Configmap)",
-                "text": "step-external-1.md"
-            },
-            {
-                "title": "Конфигурация внешнего сервиса (Deployment)",
-                "text": "step-external-2.md"
-            },
-            {
-                "title": "Статус выполнения задания",
-                "text": "step-progress.md"
-            },
-            {
-                "title": "Конфигурация приложения",
-                "text": "step-app-config.md"
+                "title": "Запуск сервисов",
+                "text": "step-run.md"
             },
             {
                 "title": "Проверка связи",
