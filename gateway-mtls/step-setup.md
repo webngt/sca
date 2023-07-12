@@ -23,7 +23,7 @@ kubectl create namespace mesh-external
 
 ```
 export KUBECONFIG=/etc/rancher/k3s/k3s.yaml
-istioctl install \
+istioctl install -y \
 --set components.egressGateways[0].name=istio-egressgateway \
 --set components.egressGateways[0].enabled=true \
 --set values.pilot.resources.requests.memory=512Mi \
