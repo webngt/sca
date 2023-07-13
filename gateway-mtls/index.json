@@ -35,8 +35,8 @@
                 "text": "step-app-howto.md"
             },
             {
-                "title": "Доработка базовой конфигурации (Секреты)",
-                "text": "step-app-fix-secrets.md"
+                "title": "Применить правила",
+                "text": "step-rules-config.md"
             },
             {
                 "title": "Доработка базовой конфигурации (ServiceAccount)",
