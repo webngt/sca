@@ -19,7 +19,7 @@ kubectl label namespace default istio-injection=enabled
 kubectl create namespace mesh-external
 ```{{execute}}
 
-Кроме этого вам понадобится включить Egress Gateway, для этого выполните слудющую команду
+Кроме этого вам понадобится включить Egress Gateway, для этого выполните слудющую команду. (если при выполнении команды возникла ошибка, попробуйте выполнит ее еще раз)
 
 ```
 export KUBECONFIG=/etc/rancher/k3s/k3s.yaml
