@@ -39,14 +39,6 @@
                 "text": "step-rules-config.md"
             },
             {
-                "title": "Доработка базовой конфигурации (ServiceAccount)",
-                "text": "step-app-fix-sa.md"
-            },
-            {
-                "title": "Создать объект Destination Rule",
-                "text": "step-app-dr.md"
-            },
-            {
                 "title": "Финальная проверка",
                 "text": "step-app-check.md"
             }
