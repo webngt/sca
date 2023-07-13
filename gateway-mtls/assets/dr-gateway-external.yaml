@@ -1,0 +1,17 @@
+# Это правило предназначено для установки исходящего соединения между шлюзом и внешним сервисом
+apiVersion: networking.istio.io/v1alpha3
+kind: DestinationRule
+metadata:
+  name: originate-mtls-for-nginx
+spec:
+  host: my-nginx.mesh-external.svc.cluster.local # правило применяется к внешнему сервису
+  trafficPolicy:
+    loadBalancer:
+      simple: ROUND_ROBIN
+    portLevelSettings:
+    - port:
+        number: 443 # правило применяется при запросах на порт 443
+      tls: 
+        mode: MUTUAL
+        credentialName: client-credential # ключ и сертификат берется из секрета client-credential
+        sni: my-nginx.mesh-external.svc.cluster.local # признак SNI my-nginx.mesh-external.svc.cluster.local

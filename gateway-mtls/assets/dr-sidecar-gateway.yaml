@@ -1,0 +1,21 @@
+# Это правило предназначено для установки соединения между sidecar и egressgateway
+apiVersion: networking.istio.io/v1alpha3
+kind: DestinationRule
+metadata:
+  name: egressgateway-for-nginx
+spec:
+  # host указывает, что правило применяется применяется при отправке запросов к istio-egressgateway
+  host: istio-egressgateway.istio-system.svc.cluster.local
+  subsets: # именованные правила 
+  - name: nginx 
+    trafficPolicy:
+      loadBalancer:
+        simple: ROUND_ROBIN
+      portLevelSettings:
+      - port:
+          number: 443 # запросы должны идти по порту 443
+        # при этом режим защищенного соединения устанавливается в ISTIO_MUTUAL
+        # при установке соедиенения в поле SNI передавать значение my-nginx.mesh-external.svc.cluster.local (адрес внешнего сервиса)
+        tls: 
+          mode: ISTIO_MUTUAL
+          sni: my-nginx.mesh-external.svc.cluster.local

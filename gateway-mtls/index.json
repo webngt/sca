@@ -60,7 +60,10 @@
                 {"file": "nginx.conf", "target": "/root/external"},
                 {"file": "svc-deploy-ext.yaml", "target": "/root/external/"},
                 {"file": "app-base.yaml", "target": "/root/internal/"},
-                {"file": "app-dr.yaml", "target": "/root/internal/"}
+                {"file": "virtual-service.yaml", "target": "/root/internal/"},
+                {"file": "gateway.yaml", "target": "/root/internal/"},
+                {"file": "dr-sidecar-gateway.yaml", "target": "/root/internal/"},
+                {"file": "dr-gateway-external.yaml", "target": "/root/internal/"}
             ]
         },
         "finish": {

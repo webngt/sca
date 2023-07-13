@@ -1,0 +1,40 @@
+# правила маршрутизации входящих соединений
+apiVersion: networking.istio.io/v1alpha3
+kind: VirtualService
+metadata:
+  name: direct-nginx-through-egress-gateway
+spec:
+  hosts: # правила действуют для перечисленных сервисов, в данном случае указан внешний сервис
+  - my-nginx.mesh-external.svc.cluster.local
+  gateways:
+  - istio-egressgateway # перечисленные ниже правила применяются к объекту istio-egressgateway
+  - mesh # также правила могут применяться к сайдкарам (слово mesh зарезервировано и обозначает все сайдкары)
+  http:
+  # правило для сайдкаров
+  - match:
+    - gateways:
+      - mesh # правило будет применяться к сайдкару
+      port: 80 # входящие запросы принимаются на 80 порт
+    # тк нет других условий, то все запросы на 80 порт будут перенапревлены на istio-egressgateway
+    # к запросам будут применяться правила из subset nginх 
+    # он определен в DestinationRule egressgateway-for-nginx, см файл dr-sidecar-gateway.yaml
+    # DestinationRule для исходящих соедиений выбирается на основе поля host в разделе destination
+    route:
+    - destination: # куда перенаправлять исходящие запросы
+        host: istio-egressgateway.istio-system.svc.cluster.local 
+        subset: nginx 
+        port:
+          number: 443 # на какой порт перенаправлять запрос
+      weight: 100
+  # правило для istio-egressgateway
+  # DestinationRule для исходящих соедиений выбирается на основе поля host в разделе destination
+  - match:
+    - gateways:
+      - istio-egressgateway # правило будет применяться к указанному шлюзу
+      port: 443 # порт для входящих соединений
+    route:
+    - destination: # куда перенаправлять исходящие запросы
+        host: my-nginx.mesh-external.svc.cluster.local 
+        port:
+          number: 443
+      weight: 100

@@ -1,0 +1,20 @@
+apiVersion: networking.istio.io/v1alpha3
+kind: Gateway
+metadata:
+  # имя объекта, на него ссылаются другие сервисы
+  name: istio-egressgateway
+spec:
+  selector:
+    # тип шлюза. egressgateway - для обработки исходящих запросов
+    istio: egressgateway
+  servers:
+  # правила приема запросов
+  # шлюз может обрабатывать только запросы
+  - port:
+      number: 443 # по какому порту принимать запросы
+      name: https # название порта
+      protocol: HTTPS # протокол для входящих соединений
+    hosts: # куда допускается перенаправлять запрос
+    - my-nginx.mesh-external.svc.cluster.local 
+    tls: # режим соединения для входящих запросов
+      mode: ISTIO_MUTUAL
