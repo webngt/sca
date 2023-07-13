@@ -22,7 +22,7 @@ kubectl -n istio-system apply -f internal/dr-gateway-external.yaml
 kubectl apply -f internal/virtual-service.yaml
 ```{{execute}}
 
-## Подробнее о заоданных объектах
+## Подробнее о созданных объектах
 
 Откройте файлы в редакторе и ознакомьтесь с важными атрибутами в комментариях
 
