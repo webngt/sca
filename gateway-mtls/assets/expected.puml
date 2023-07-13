@@ -16,6 +16,12 @@ autonumber
 
 User->Sleep++: kubectl exec \ \n"$(kubectl get pod -l app=sleep -o jsonpath={.items..metadata.name})" \ \n-c sleep -- curl -svS http://my-nginx.mesh-external.svc.cluster.local
     Sleep->Sidecar++: HTTP GET \n my-nginx.mesh-external.svc.cluster.local
-        Sidecar->External !! : HTTP GET \n my-nginx.mesh-external.svc.cluster.local
-    return status 500
+        Sidecar->Sidecar: Правила маршрутизации VirtualService \n перенаправить трафик с my-nginx.mesh-external.svc.cluster.local \n на istio-egressgateway.istio-system.svc.cluster.local
+        Sidecar->Sidecar: Правила маршрутизации DestinationRule \n установка защищенного соединения с Egress ISTIO_MUTUAL \n в поле sni передать my-nginx.mesh-external.svc.cluster.local
+        Sidecar->EgressGateway++: HTTPS (ISTIO MUTUAL) istio-egressgateway.istio-system.svc.cluster.local
+            EgressGateway->EgressGateway: Правила маршрутизации DestinationRule \n на основе поля sni установить защищенное соедиение с my-nginx.mesh-external.svc.cluster.local
+            EgressGateway->External++: HTTPS GET \n my-nginx.mesh-external.svc.cluster.local
+            return 200
+        return 200
+    return 200
 return
