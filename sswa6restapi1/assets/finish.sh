@@ -17,7 +17,7 @@ function request {
 }
 
 # получаем логи из ингреса
-logs=$(kubectl logs -n ingress-nginx -l app.kubernetes.io/name=ingress-nginx | tail -n 100)
+logs=$(kubectl logs -n ingress-nginx -l app.kubernetes.io/name=ingress-nginx 2>&1 | tail -n 100)
 
 patternIp="GET /httpbin/ip HTTP/1.1\" 200 28 \"-\" \"curl"
 patternHtml="GET /httpbin/html HTTP/1.1\" 200 3741 \"-\" \"curl"
@@ -31,4 +31,13 @@ hasHtmlRequest=$(request "$logs" "$patternHtml")
 hasDelayRequest=$(request "$logs" "$patternDelay")
 hasPostRequest=$(request "$logs" "$patternPost")
 
-echo "$res"
+jq --null-input \
+--arg didIpRequest "$hasIpRequest" \
+--arg didHtmlRequest "$hasHtmlRequest" \
+--arg didDelayRequest "$hasDelayRequest" \
+--arg didPostRequest "$hasPostRequest" \
+'{"didIpRequest": $didIpRequest, 
+"didHtmlRequest": $didHtmlRequest,
+"didDelayRequest": $didDelayRequest,
+"didPostRequest": $didPostRequest
+}'
