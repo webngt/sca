@@ -30,7 +30,7 @@
                 {"file": "httpbin.yaml", "target": "/root"},
                 {"file": "httpbin-openapi.yaml", "target": "/root"},
                 {"file": "prepare.sh", "target": "/usr/local/bin", "chmod": "+x"},
-                {"file": "rules.sh", "target": "/root", "chmod": "+x"}
+                {"file": "finish.sh", "target": "/root", "chmod": "+x"}
             ]
           }
     },
