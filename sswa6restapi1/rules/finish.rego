@@ -63,7 +63,7 @@ allow[msg] {
   # есть ли вообще массив controllerStatus.items c количеством элементов 1
   count(input.controllerStatus.items) == 1
   # есть ли вообще массив controllerStatus.items[0].conditions c количеством элементов 4
-  count(input.controllerStatus.items[0].status.conditions) = 4
+  count(input.controllerStatus.items[0].status.conditions) == 4
   # проверяем статус запуска контейнера ингрес контроллра
   input.controllerStatus.items[0].status.conditions[_].status = "True"
 
