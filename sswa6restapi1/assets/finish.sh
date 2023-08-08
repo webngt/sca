@@ -16,6 +16,9 @@ function lookupIngressLogs {
     return
 }
 
+
+controllerStatus=$(kubectl get po -l app.kubernetes.io/component=controller -n ingress-nginx -o json 2>&1)
+
 # получаем логи из ингреса
 logs=$(kubectl logs -n ingress-nginx -l app.kubernetes.io/name=ingress-nginx 2>&1 | tail -n 100)
 
@@ -42,8 +45,5 @@ jq --null-input \
 --arg didHtmlRequest "$hasHtmlRequest" \
 --arg didDelayRequest "$hasDelayRequest" \
 --arg didPostRequest "$hasPostRequest" \
-'{"didIpRequest": $didIpRequest, 
-"didHtmlRequest": $didHtmlRequest,
-"didDelayRequest": $didDelayRequest,
-"didPostRequest": $didPostRequest
-}'
+--argjson controllerStatus "$controllerStatus" \
+'$ARGS.named'
