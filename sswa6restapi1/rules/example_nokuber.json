@@ -1,0 +1,15 @@
+{
+    "didIpRequest": "false",
+    "didHtmlRequest": "false",
+    "didDelayRequest": "false",
+    "didPostRequest": "false",
+    "controllerStatus": {
+      "apiVersion": "v1",
+      "items": [],
+      "kind": "List",
+      "metadata": {
+        "resourceVersion": "",
+        "selfLink": ""
+      }
+    }
+  }

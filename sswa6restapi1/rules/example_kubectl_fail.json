@@ -1,0 +1,9 @@
+{
+    "didIpRequest": "false",
+    "didHtmlRequest": "false",
+    "didDelayRequest": "false",
+    "didPostRequest": "false",
+    "controllerStatus": {
+      "error": "fail 1"
+    }
+  }
