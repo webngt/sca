@@ -13,6 +13,10 @@
             {
                 "title": "Работа с Kubernetes",
                 "text": "kube-cap.md"
+            },
+            {
+                "title": "Работа с Istio",
+                "text": "istio-cap.md"
             }
         ],
         "intro": {
