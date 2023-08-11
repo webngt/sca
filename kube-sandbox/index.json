@@ -22,10 +22,10 @@
         "assets": { 
             "host01": [
                 {"file": "httpbin-kube.yaml", "target": "/root"},
-                {"file": "Chart.yaml", "target": "/root/istio-httpbin/Chart.yaml"},
-                {"file": "values.yaml", "target": "/root/istio-httpbin/values.yaml"},
-                {"file": ".helmignore", "target": "/root/istio-httpbin/.helmignore"},
-                {"file": "httpbin-istio.yaml", "target": "/root/istio-httpbin/templates/httpbin-istio.yaml"}
+                {"file": "Chart.yaml", "target": "/root/istio-httpbin"},
+                {"file": "values.yaml", "target": "/root/istio-httpbin"},
+                {"file": ".helmignore", "target": "/root/istio-httpbin"},
+                {"file": "httpbin-istio.yaml", "target": "/root/istio-httpbin/templates"}
             ]
         },
         "finish": {
