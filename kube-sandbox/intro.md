@@ -1,5 +1,3 @@
-#  Kubernetes Sandbox
-
 Добро пожаловать в "песочницу" для самостоятельного закрепления навыков
 работы с Kubernetes и Istio Service Mesh. 
 
