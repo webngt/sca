@@ -4,7 +4,8 @@
 помощи утилиты `kubectl`
 
 ```
-kubectl apply -f httpbin-kube.yaml
+kubectl apply -f httpbin-kube.yaml && \
+kubectl wait --for=condition=Ready pod -l app=httpbin --timeout=-60s
 ```{{execute}}
 
 Проверка работы сервиса
