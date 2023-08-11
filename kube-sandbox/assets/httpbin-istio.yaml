@@ -25,57 +25,53 @@ spec:
   http:
   - match:
     - uri:
-        prefix: /$(cat /usr/local/etc/sbercode-prefix)-80
+        prefix: /{{ .Values.sbercodePrefix }}-80
     route:
     - destination:
-        host: httpbin.default.svc.cluster.local
+        host: httpbin.{{ .Release.Namespace }}.svc.cluster.local
         port:
-          number: 80   
-
-
-
-# apiVersion: v1
-# kind: ServiceAccount
-# metadata:
-#   name: httpbin
-# ---
-# apiVersion: v1
-# kind: Service
-# metadata:
-#   name: httpbin
-#   labels:
-#     app: httpbin
-#     service: httpbin
-# spec:
-#   type: NodePort
-#   ports:
-#   - name: http
-#     port: 8000
-#     targetPort: 80
-#     nodePort: 30080
-#   selector:
-#     app: httpbin
-# ---
-# apiVersion: apps/v1
-# kind: Deployment
-# metadata:
-#   name: httpbin
-# spec:
-#   replicas: 1
-#   selector:
-#     matchLabels:
-#       app: httpbin
-#       version: v1
-#   template:
-#     metadata:
-#       labels:
-#         app: httpbin
-#         version: v1
-#     spec:
-#       serviceAccountName: httpbin
-#       containers:
-#       - image: docker.io/kong/httpbin
-#         imagePullPolicy: IfNotPresent
-#         name: httpbin
-#         ports:
-#         - containerPort: 80
+          number: 8000   
+---          
+apiVersion: v1
+kind: ServiceAccount
+metadata:
+  name: httpbin
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: httpbin
+  labels:
+    app: httpbin
+    service: httpbin
+spec:
+  ports:
+  - name: http
+    port: 8000
+    targetPort: 80
+  selector:
+    app: httpbin
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: httpbin
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: httpbin
+      version: v1
+  template:
+    metadata:
+      labels:
+        app: httpbin
+        version: v1
+    spec:
+      serviceAccountName: httpbin
+      containers:
+      - image: docker.io/kong/httpbin
+        imagePullPolicy: IfNotPresent
+        name: httpbin
+        ports:
+        - containerPort: 80
