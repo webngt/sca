@@ -17,6 +17,10 @@
             {
                 "title": "Работа с Istio",
                 "text": "istio-cap.md"
+            },
+            {
+                "title": "В добрый путь!",
+                "text": "final.md"
             }
         ],
         "intro": {
