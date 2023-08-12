@@ -73,5 +73,8 @@ spec:
       - image: docker.io/kong/httpbin
         imagePullPolicy: IfNotPresent
         name: httpbin
+        env:
+        - name: SCRIPT_NAME
+          value: /{{ .Values.sbercodePrefix }}-80
         ports:
         - containerPort: 80
