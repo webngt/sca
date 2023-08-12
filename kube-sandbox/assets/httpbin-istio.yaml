@@ -76,5 +76,7 @@ spec:
         env:
         - name: SCRIPT_NAME
           value: /{{ .Values.sbercodePrefix }}-80
+        - name: APPLICATION_ROOT
+          value: /{{ .Values.sbercodePrefix }}-80
         ports:
         - containerPort: 80
