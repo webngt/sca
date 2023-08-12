@@ -14,3 +14,10 @@ kubectl wait --for=condition=Ready pod -l app=httpbin --timeout=-60s
 curl -I http://localhost:30080
 ```{{execute}}
 
+
+Ознакомьтесь с конфигурацией примера
+
+`httpbin-kube.yaml`{{open}}
+
+В вашей самостоятельной работе вым могут потребоваться докер образы, вы можете
+использовать любой из официальных образов dockehub, см https://hub.docker.com/search?q=&image_filter=official
