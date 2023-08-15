@@ -20,4 +20,8 @@ curl -I http://localhost:30080
 `httpbin-kube.yaml`{{open}}
 
 В вашей самостоятельной работе вым могут потребоваться докер образы, вы можете
-использовать любой из официальных образов dockehub, см https://hub.docker.com/search?q=&image_filter=official
+использовать любой из официальных образов dockehub, см 
+
+<a href="https://hub.docker.com/search?q=&image_filter=official" target="_blank" rel="noopener noreferrer">https://hub.docker.com/search?q=&image_filter=official</a>
+
+
