@@ -22,6 +22,6 @@ curl -I http://localhost:30080
 В вашей самостоятельной работе вым могут потребоваться докер образы, вы можете
 использовать любой из официальных образов dockehub, см 
 
-<a href="https://hub.docker.com/search?q=&image_filter=official" target="_blank" rel="noopener noreferrer">https://hub.docker.com/search?q=&image_filter=official</a>
+<a href="https://hub.docker.com/search?q=&image_filter=official" target="_blank" rel="noopener noreferrer">Список разрешенных образов</a>
 
 
