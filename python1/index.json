@@ -35,7 +35,7 @@
                 {"file": "load.sh", "target": "/usr/local/bin/", "chmod": "+x"},
 				{"file": "step0.py", "target": "/"},
 				{"file": "step1.py", "target": "/"},		
-				{"file": "test_cases.py", "target": "/usr/local/lib"}		
+				{"file": "test_cases.py", "target": "/usr/local/lib/"}		
             ]
         },
         "finish": {
