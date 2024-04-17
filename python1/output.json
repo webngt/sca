@@ -1,17 +1,12 @@
 {
-    "ok": ["test_find_min", "test_find_xxx"], 
-    "fail": [
-        {
-            "test_find_min": {
-                "message": "Traceback (most recent call last):\nFile \"test_cases.py\", line 7, in test_find_min\nself.assertEqual(find_min(1, 2), 1)\nAssertionError: <built-in function min> != 1"
+    "TestAssignment0": {
+        "ok": [],
+        "fail": [
+            {
+                "test_find_min": "Traceback (most recent call last):\n  File \"test_cases.py\", line 18, in test_find_min\n    self.assertEqual(find_min(1, 2), 1)\nAssertionError: <built-in function min> != 1\n"
             }
-        }
-    ],
-    "error": [
-        {
-            "test_find_min": {
-                "message": "Some unexpected error"
-            }
-        }
-    ]
+        ],
+        "error": [],
+        "skip": []
+    }
 }
