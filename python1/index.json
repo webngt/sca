@@ -33,8 +33,8 @@
                 {"file": "verify.py", "target": "/usr/local/bin/", "chmod": "+x"},
                 {"file": "validate.sh", "target": "/usr/local/bin/", "chmod": "+x"},
                 {"file": "load.sh", "target": "/usr/local/bin/", "chmod": "+x"},
-				{"file": "step0.py", "target": "/"},
-				{"file": "step1.py", "target": "/"},		
+				{"file": "step0.py", "target": "/root"},
+				{"file": "step1.py", "target": "/root"},		
 				{"file": "test_cases.py", "target": "/usr/local/lib/"}		
             ]
         },
@@ -42,18 +42,6 @@
             "text": "finish.md"
         }
     },
-    "files": [
-        "prometheus.yml",
-        "./app/app.py",
-        "./app/Dockerfile",
-        "./app/pip.conf",
-        "./app/requirements.txt",
-        "./app/metrics.py",
-        "results.txt",
-		"step0.py",
-		"step1.py", 
-		"test_cases.py"
-    ],
     "environment": {
         "showdashboard": true,
         "dashboards": [{"name": "Prometheus", "port": 9090}],
