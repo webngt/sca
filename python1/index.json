@@ -10,12 +10,11 @@
                 "title": "Задание 1",
                 "text": "step0.md",
                 "checkPolicyName": "step",
-		"cmd": "python3 step0.py",
-		"openFile": "/root/step0.py"
             },
             {
                 "title": "Задание 2",
                 "text": "step1.md"
+                "checkPolicyName": "step",
             },
             {
                 "title": "Задание 3",
@@ -51,7 +50,6 @@
         "uisettings": "py",
         "uimessage1": "\u001b[32mYour Interactive Bash Terminal.\u001b[m\r\n"
     },
-    "layoutType": "LAYOUT_TYPE_SIMPLE",
     "backend": {
       "imageid": "ubuntu:2004"
     }
