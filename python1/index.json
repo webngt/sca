@@ -16,6 +16,9 @@
             {
                 "title": "Задание 2",
                 "text": "step1.md"
+                "checkPolicyName": "step",
+		"cmd": "python3 step1.py",
+		"openFile": "/root/step1.py"
             },
             {
                 "title": "Задание 3",
