@@ -11,8 +11,7 @@ fmt := concat("", [
 `,
 "```", 
 `
-2
-3
+%s
 `,
 "```",
 
@@ -39,22 +38,36 @@ fmt := concat("", [
 ])
 
 
+errFmt := concat("", [
+`## %s
+
+<details>
+
+### Непредвиденая ошибка
+
+`,
+"```", 
+`
+%s
+`,
+"```",
+])
 
 allow[msg] {
 	test := input[key]
     test.passed
-    msg := sprintf(fmt, [key, test.result[0], test.expected[0]])
+    msg := sprintf(fmt, [key, concat(",\n", test.input), concat(",\n", test.result), concat(",\n", test.expected)])
 }
 
 deny[msg] {
 	test := input[key]
     not(test.passed)
     
-    msg := sprintf(fmt, [key, test.result[0], test.expected[0]])
+    msg := sprintf(fmt, [key, concat(",\n", test.input), concat(",\n", test.result), concat(",\n", test.expected)])
 }
 
 error[msg] {
 	test := input[key]
     test.error != null
-    msg := sprintf("*%s* непредвиденная ошибка: %s", [key, test.error])
+    msg := sprintf(errFmt, [key, test.error])
 }
