@@ -10,7 +10,7 @@ deny[msg] {
 	test := input[key]
     not(test.passed)
     msg := sprintf(`
-*%s* не выполнены условия теста
+## *%s* не выполнены условия теста
 ожидаемый результат: %s,
 фактический результат %s
 `, [key, test.result[0], test.expected[0]])
