@@ -1,5 +1,6 @@
 package sbercode
 
+# https://play.openpolicyagent.org/p/BGTPBqSh8S
 
 fmt := concat("", [
 `## %s
