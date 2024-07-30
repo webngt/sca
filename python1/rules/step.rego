@@ -1,5 +1,33 @@
 package sbercode
 
+fmt := `## %s
+
+<details>
+
+### Входные данные
+
+```
+2
+3
+```
+
+### Ожидаемый результат
+
+```
+Произведение = %s
+```
+
+### Фактический результат
+
+```
+Произведение = %s
+```
+
+</details>
+`
+
+
+
 allow[msg] {
 	test := input[key]
     test.passed
@@ -9,19 +37,6 @@ allow[msg] {
 deny[msg] {
 	test := input[key]
     not(test.passed)
-
-    fmt := `## *%s* не выполнены условия теста
-
-| Syntax      | Description |
-| ----------- | ----------- |
-| Header      | Title       |
-| Paragraph   | Text        |
-
-
-ожидаемый результат: %s,
-
-фактический результат %s
-`
     
     msg := sprintf(fmt, [key, test.result[0], test.expected[0]])
 }
