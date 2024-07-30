@@ -1,6 +1,6 @@
 package sbercode
 
-# https://play.openpolicyagent.org/p/BGTPBqSh8S
+# https://play.openpolicyagent.org/p/HMCX1jMU0y
 
 fmt := concat("", [
 `## %s
@@ -23,7 +23,7 @@ fmt := concat("", [
 `,
 "```",
 `
-Произведение = %s
+%s
 `,
 "```",
 
@@ -33,7 +33,7 @@ fmt := concat("", [
 `,
 "```",
 `
-Произведение = %s
+%s
 `,
 "```",
 ])
@@ -55,13 +55,13 @@ errFmt := concat("", [
 ])
 
 allow[msg] {
-	test := input[key]
+    test := input[key]
     test.passed
     msg := sprintf(fmt, [key, concat(",\n", test.input), concat(",\n", test.result), concat(",\n", test.expected)])
 }
 
 deny[msg] {
-	test := input[key]
+    test := input[key]
     not(test.passed)
     
     msg := sprintf(fmt, [key, concat(",\n", test.input), concat(",\n", test.result), concat(",\n", test.expected)])

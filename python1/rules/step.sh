@@ -7,7 +7,7 @@ cat << EOF
     "Test 1": {
         "error": "err",
         "expected": [
-            "7"
+            "Произведение = 7"
         ],
         "input": [
             "3",
@@ -15,7 +15,7 @@ cat << EOF
         ],
         "passed": false,
         "result": [
-            "7"
+            "Произведение = 7"
         ],
         "should_include": "N/A"
     },
