@@ -1,0 +1,53 @@
+{
+    "title": "IT MMA Challenge",
+    "description": "IT MMA Challenge",
+    "details": {
+        "steps": [
+            {
+                "title": "Описание",
+                "text": "step0.md"
+            },
+            {
+                "title": "Регистрация",
+                "text": "signup.md"
+            },
+            {
+                "title": "Разминка",
+                "text": "run-postgres.md"
+            },
+            {
+                "title": "SQL запросы",
+                "text": "ddl-sql.md"
+            },
+            {
+                "title": "Создание пары ключей",
+                "text": "keys.md"
+            },
+            {
+                "title": "Запуск сервиса",
+                "text": "run-service.md"
+            },
+            {
+                "title": "Финальное задание",
+                "text": "request.md"
+            },
+            {
+                "title": "Cпасибо за участие",
+                "text": "finish.md"
+            }
+        ],
+        "intro": {
+            "text": "intro.md"
+        },
+        "assets": {
+            "host01": [ 
+                {"file": "signup.json", "target": "/root"},
+                {"file": "create_table.sql", "target": "/root"},
+                {"file": "body.json", "target": "/root"}
+            ]
+        }
+    },
+    "backend": {
+        "imageid": "ubuntu:2004"
+    }
+}
