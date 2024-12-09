@@ -1,0 +1,56 @@
+{
+    "pathwayTitle": "Kubernetes Template",
+    "title": "Kubernetes Template",
+    "description": "Kubernetes Template",
+    "difficulty": "beginner",
+    "time": "30 minutes",
+    "details": {
+        "template": true,
+        "steps": [
+            {
+                "title": "Начало работы",
+                "text": "step0.md"
+            },
+            {
+                "title": "Работа с Kubernetes",
+                "text": "kube-cap.md"
+            },
+            {
+                "title": "Работа с Istio",
+                "text": "istio-cap.md"
+            },
+            {
+                "title": "В добрый путь!",
+                "text": "final.md"
+            }
+        ],
+        "intro": {
+            "text": "intro.md",
+            "credits": ""
+        },
+        "assets": { 
+            "host01": [
+                {"file": "httpbin-kube.yaml", "target": "/root"},
+                {"file": "Chart.yaml", "target": "/root/istio-httpbin"},
+                {"file": "values.yaml", "target": "/root/istio-httpbin"},
+                {"file": ".helmignore", "target": "/root/istio-httpbin"},
+                {"file": "httpbin-istio.yaml", "target": "/root/istio-httpbin/templates"}
+            ]
+        },
+        "finish": {
+            "text": "finish.md"
+        }
+    },
+    "files": [
+    ],
+    "environment": {
+        "showdashboard": true,
+        "dashboards": [{"name": "Prometheus", "port": 80}],
+        "uilayout": "editor-terminal",
+        "uisettings": "py",
+        "uimessage1": "\u001b[32mYour Interactive Bash Terminal.\u001b[m\r\n"
+    },
+    "backend": {
+      "imageid": "k3s-istio:1.14.1"
+    }
+}
