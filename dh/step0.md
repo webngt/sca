@@ -1,9 +1,21 @@
+## Клонировать условно работающий пример
+
 `git clone https://github.com/webngt/dh.git`{{execute}}
 
-`cd dh && make run`{{execute}}
+## Запустить пример
+
+```bash
+cd dh && \
+docker run \
+-p 3030:3030 \
+-v /root/dh/ceaf-app:/app/public/ceaf-app \
+-v /root/dh/example.env:/app/.env \
+--name dochub -d docker.io/alexander894/dochub:0.0.1
+```{{execute}}
 
 [DochubUI]([[UUID_SUBDOMAIN]]-3030-[[HOST]]/)
 
-`curl -X 'PUT' 'https://localhost:3030/core/storage/reload'`
+Запрос релоада `fetch('/core/storage/reload', {method: 'PUT'})`
 
-`curl https://localhost:3030/core/storage/jsonata/\(%24\)`
+
+Запрос схемы `fetch('/core/storage/jsonata/\(%24\)')`
