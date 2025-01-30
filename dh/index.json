@@ -1,0 +1,18 @@
+{
+    "title": "Dochub Challenge",
+    "description": "Dochub Challenge",
+    "details": {
+        "steps": [
+            {
+                "title": "песочница",
+                "text": "step0.md"
+            }
+        ],
+        "intro": {
+            "text": "intro.md"
+        }
+    },
+    "backend": {
+        "imageid": "ubuntu:2004"
+    }
+}
